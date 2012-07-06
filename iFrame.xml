@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Module>
   <ModulePrefs title="Include gadget (iframe)"
     title_url="http://sites.google.com/"
@@ -16,7 +16,7 @@
      <EnumValue value="yes" display_value="Yes"/>
    </UserPref>
 
-	<Content type="html" view="home"><![CDATA[
+	<Content type="html" view="default,canvas"><![CDATA[
 	<div id='dest' />
 	
 	<script type="text/javascript">
