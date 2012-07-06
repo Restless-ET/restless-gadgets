@@ -9,7 +9,7 @@
     width="600"
     author="Google">
   </ModulePrefs>
-  <UserPref name="iframeURL" display_name="URL to content" required="true" default_value="http://www.sapo.pt" />
+  <UserPref name="iframeURL" display_name="URL to content" required="true" default_value="http://www.beubi.com" />
    <UserPref name="scroll" display_name="Display scrollbar" default_value="auto" datatype="enum">
      <EnumValue value="auto" display_value="Automatic"/>
      <EnumValue value="no" display_value="No"/>
