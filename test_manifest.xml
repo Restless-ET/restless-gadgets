@@ -4,18 +4,18 @@
   <!-- Support info to show in the marketplace & control panel -->
   <Support>
     <!-- URL for application setup as an optional redirect during the install -->
-    <Link rel="setup" href="http://_example.com_/google/setup.php?domain=${DOMAIN_NAME}" />
+<!--     <Link rel="setup" href="http://_example.com_/google/setup.php?domain=${DOMAIN_NAME}" /> -->
 
     <!-- URL for application configuration, accessed from the app settings
      page in the control panel -->
-    <Link rel="manage" href="http://_example.com_/google/admin.php?domain=${DOMAIN_NAME}" />
+<!--     <Link rel="manage" href="http://_example.com_/google/admin.php?domain=${DOMAIN_NAME}" /> -->
 
     <!-- URL explaining how customers get support. -->
-    <Link rel="support" href="http://_example.com_/google/support.php" />
+<!--     <Link rel="support" href="http://_example.com_/google/support.php" /> -->
 
     <!-- URL that is displayed to admins during the deletion process,
      to specify policies such as data retention, how to claim accounts, etc. -->
-    <Link rel="deletion-policy" href="http://_example.com_/google/deletion-policy.php" />
+<!--     <Link rel="deletion-policy" href="http://_example.com_/google/deletion-policy.php" /> -->
   </Support>
 
   <!-- Name and description pulled from message bundles -->
@@ -26,7 +26,7 @@
   <!-- Show this link in Google's universal navigation for all users -->
   <Extension id="navLink" type="link">
     <Name>HelloWorld</Name>
-    <Url>http://_example.com_/home.php?from=google&domain=${DOMAIN_NAME}</Url>
+    <Url>http://beubi.com/index.php?from=google&amp;domain=${DOMAIN_NAME}</Url>
   </Extension>
 
   <!-- Declare our OpenID realm so our app is white listed -->
@@ -52,7 +52,7 @@
 
 <Extension id="HelloWorldGadget" type="gadget">
   <Name>Hello World Gmail contextual gadget</Name>
-  <Url>_http://example.com/gadgets/hello_world_gadget.xml_</Url>
+  <Url>http://restless-gadgets.googlecode.com/git/test_contextual.xml</Url>
   <Container name="mail"/>
   <!-- Uncomment this to enable Caja. -->
   <!-- <Param name="caja" value="enabled"/> -->
