@@ -34,8 +34,8 @@
    "html" and "card" are required for all Gmail contextual gadgets. -->
   <Content type="html" view="card">
     <![CDATA[
-      <div id='list' />
-      <div id='dest' />
+      <div id='list'></div>
+      <div id='dest'></div>
     
       <!-- Start with Single Sign-On -->
       <script type="text/javascript">
@@ -61,8 +61,8 @@
         
         
 	      var iframe = document.createElement('iframe');
-	      iframe.setAttribute('width', '700px');
-	      iframe.setAttribute('height', '300px');
+	      iframe.setAttribute('width', '100%');
+	      iframe.setAttribute('height', '500px');
 	      iframe.setAttribute('frameborder','no');
 	      iframe.setAttribute('scrolling','auto');
 	      iframe.setAttribute('src', 'http://www.sapo.pt');
