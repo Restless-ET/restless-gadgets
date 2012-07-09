@@ -8,25 +8,13 @@
     height="800"
     width="600"
     author="Google">
-    
-     <!-- The next feature, google.contentmatch, is required for all
-     Gmail contextual gadgets.
-     <Param> - specify one or more comma-separated extractor IDs in
-     a param named "extractors". This line is overridden by the extractor ID
-     in the manifest, but is still expected to be present. -->
-    <Require feature="google.contentmatch">
-      <Param name="extractors">
-        google.com:HelloWorld, google.com:RecipientEmailExtractor
-      </Param>
-    </Require>
-    
   </ModulePrefs>
-<!--   <UserPref name="iframeURL" display_name="URL to content" required="true" default_value="http://www.beubi.com" />
+  <UserPref name="iframeURL" display_name="URL to content" required="true" default_value="http://www.beubi.com" />
    <UserPref name="scroll" display_name="Display scrollbar" default_value="auto" datatype="enum">
      <EnumValue value="auto" display_value="Automatic"/>
      <EnumValue value="no" display_value="No"/>
      <EnumValue value="yes" display_value="Yes"/>
-   </UserPref> -->
+   </UserPref>
 
 	<Content type="html" view="default,canvas"><![CDATA[
 	<div id='dest' />
@@ -34,9 +22,9 @@
 	<script type="text/javascript">
 	  function doRender(){
 	    // setup variables
-	    //var prefs = new _IG_Prefs();
-	    var iframeURL = 'http://www.beubi.com'; //prefs.getString('iframeURL');
-	    var scroll = 'auto'; //prefs.getString('scroll');
+	    var prefs = new _IG_Prefs();
+	    var iframeURL = prefs.getString('iframeURL');
+	    var scroll = prefs.getString('scroll');
 	    var height = '100%';
 	    var width = '100%';
 	    if(gadgets.window){
