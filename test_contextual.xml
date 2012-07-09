@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
-  <ModulePrefs title="Check senders"
-    description="Matches and echoes the email addresses asked to check"
+  <ModulePrefs title="Hello World"
+    description="Matches and echoes 'Hello World' string in emails"
     height="20"
-    author="Artur M"
+    author="Sarah M and Walter Q"
     author_email="..."
-    author_location="Aveiro, PT">
+    author_location="Mountain View, CA">
 
     <!-- Declare feature dependencies. -->
 
@@ -24,7 +24,7 @@
      in the manifest, but is still expected to be present. -->
     <Require feature="google.contentmatch">
       <Param name="extractors">
-        google.com:SenderEmailExtractor <!-- google.com:HelloWorld -->
+        google.com:HelloWorld
       </Param>
     </Require>
 
