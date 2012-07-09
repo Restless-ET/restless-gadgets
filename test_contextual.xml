@@ -69,7 +69,7 @@
 	      var dest = document.getElementById('dest');
 	      dest.appendChild(iframe);
 	      
-	      gadgets.window.adjustHeight(100);
+	      gadgets.window.adjustHeight(600);
       </script>
     ]]>
   </Content>
