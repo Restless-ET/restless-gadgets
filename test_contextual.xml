@@ -35,7 +35,7 @@
   <Content type="html" view="card">
     <![CDATA[
       <div id='list'></div>
-      <div id='dest'></div>
+      <div id='dest' style="height: 500px;"></div>
     
       <!-- Start with Single Sign-On -->
       <script type="text/javascript">
