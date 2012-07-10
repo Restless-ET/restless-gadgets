@@ -14,6 +14,7 @@ $client->setRedirectUri('http://calendar.lh.ubiprism.pt/calendar_test.php');
 $client->setDeveloperKey('AIzaSyDlcfeg6uPmtk2VkW34epjtvXXF1hBaVtE');
 
 $cal = new apiCalendarService($client);
+
 if (isset($_GET['logout'])) {
   unset($_SESSION['token']);
 }
@@ -29,11 +30,46 @@ if (isset($_SESSION['token'])) {
 }
 
 if ($client->getAccessToken()) {
+
   $calList = $cal->calendarList->listCalendarList();
-  print "<h1>Calendar List</h1><pre>" . print_r($calList, true) . "</pre>";
 
+  if (isset($_GET['create'])) {
+    $new_cal = new Calendar();
+    $new_cal->setSummary('Calendário teste '.count($calList['items']));
+    $new_cal->setDescription('Calendário para teste de uso da API.');
+    $new_cal->setLocation('Aveiro');
+    $new_cal->setTimeZone('Europe/Lisbon');
 
-$_SESSION['token'] = $client->getAccessToken();
+    $cal->calendars->insert($new_cal);
+
+    header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+
+  }
+  else if (isset($_GET['delete'])) {
+    $itemsList = $calList['items'];
+
+    foreach ($itemsList as $item)
+    {
+      if (strpos($item['summary'], 'teste') !== false)
+      {
+        $cal->calendars->delete($item['id']);
+      }
+    }
+
+    header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+  }
+
+  print "<a class=create href='?create'>Create new calendar</a><br/><br/>";
+
+  print "<a class=logout href='?logout'>Logout</a><br/><br/>";
+
+  print "<a class=delete href='?delete'>Delete all the 'teste' calendars</a><br/><br/>";
+
+  $calList = $cal->calendarList->listCalendarList();
+  print "<h1>Calendar List</h1><pre>" . utf8_decode(print_r($calList, true)) . "</pre>";
+
+  $_SESSION['token'] = $client->getAccessToken();
+
 } else {
   $authUrl = $client->createAuthUrl();
   print "<a class='login' href='$authUrl'>Connect Me!</a>";
