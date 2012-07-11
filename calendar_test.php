@@ -13,7 +13,7 @@ $client->setClientSecret('GAq8vUss3S-3heu6CtXYp1mI');
 $client->setRedirectUri('http://calendar.lh.ubiprism.pt/calendar_test.php');
 $client->setDeveloperKey('AIzaSyDlcfeg6uPmtk2VkW34epjtvXXF1hBaVtE');
 
-$cal = new apiCalendarService($client);
+$calService = new apiCalendarService($client);
 
 if (isset($_GET['logout'])) {
   unset($_SESSION['token']);
@@ -31,7 +31,7 @@ if (isset($_SESSION['token'])) {
 
 if ($client->getAccessToken()) {
 
-  $calList = $cal->calendarList->listCalendarList();
+  $calList = $calService->calendarList->listCalendarList();
 
   if (isset($_GET['create'])) {
     $new_cal = new Calendar();
@@ -40,7 +40,7 @@ if ($client->getAccessToken()) {
     $new_cal->setLocation('Aveiro');
     $new_cal->setTimeZone('Europe/Lisbon');
 
-    $cal->calendars->insert($new_cal);
+    $calService->calendars->insert($new_cal);
 
     header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
 
@@ -52,7 +52,76 @@ if ($client->getAccessToken()) {
     {
       if (strpos($item['summary'], 'teste') !== false)
       {
-        $cal->calendars->delete($item['id']);
+        $calService->calendars->delete($item['id']);
+      }
+    }
+
+    header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+  }
+  else if (isset($_GET['associate'])) {
+    $itemsList = $calList['items'];
+
+    foreach ($itemsList as $item)
+    {
+      if (strpos($item['summary'], 'teste') !== false)
+      {
+        $tiago = new AclRuleScope();
+        $tiago->setType('user');
+        $tiago->setValue('tiago.brito@beubi.com');
+        $hugo = new AclRuleScope();
+        $hugo->setType('user');
+        $hugo->setValue('hugo.fonseca@beubi.com');
+
+        $rule = new AclRule();
+        $rule->setRole('reader');
+
+        $rule->setScope($tiago);
+        $createdRule = $calService->acl->insert($item['id'], $rule);
+
+        $rule->setScope($hugo);
+        $createdRule = $calService->acl->insert($item['id'], $rule);
+        //echo $createdRule->getId();
+      }
+    }
+
+    header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
+  }
+  else if (isset($_GET['event'])) {
+    $itemsList = $calList['items'];
+
+    foreach ($itemsList as $item)
+    {
+      if (strpos($item['summary'], 'teste') !== false)
+      {
+        $event = new Event();
+        $event->setSummary('Almoço');
+        $event->setLocation('Num restaurante perto de si...');
+
+        $start = new EventDateTime();
+        $start->setDateTime(date('Y-m-d').'T12:30:00.000+00:00');
+        $event->setStart($start);
+        $end = new EventDateTime();
+        $end->setDateTime(date('Y-m-d').'T13:45:00.000+00:00');
+        $event->setEnd($end);
+
+        $attendee1 = new EventAttendee();
+        $attendee1->setDisplayName('Tiago "Geek Retro" Brito');
+        $attendee1->setEmail('tiago.brito@beubi.com');
+        $attendee2 = new EventAttendee();
+        $attendee2->setDisplayName('Hugo "Perigoso" Fonseca');
+        $attendee2->setEmail('hugo.fonseca@beubi.com');
+        $attendee3 = new EventAttendee();
+        $attendee3->setDisplayName('Artur Melo');
+        $attendee3->setEmail('artur.melo@beubi.com');
+
+        $attendees = array(
+            $attendee1,
+            $attendee2,
+            $attendee3,
+        );
+        $event->attendees = $attendees;
+        $createdEvent = $calService->events->insert($item['id'], $event, array('sendNotifications' => false));
+        //echo $createdEvent->getId();
       }
     }
 
@@ -63,9 +132,13 @@ if ($client->getAccessToken()) {
 
   print "<a class=logout href='?logout'>Logout</a><br/><br/>";
 
-  print "<a class=delete href='?delete'>Delete all the 'teste' calendars</a><br/><br/>";
+  print "<a class=delete href='?associate'>Associate 'teste' calendars with Be.Ubi users</a><br/><br/>";
 
-  $calList = $cal->calendarList->listCalendarList();
+  print "<a class=delete href='?event'>Add example event on all 'teste' calendars</a><br/><br/>";
+
+  print "<a class=delete href='?delete'>Delete all 'teste' calendars</a><br/><br/>";
+
+  $calList = $calService->calendarList->listCalendarList();
   print "<h1>Calendar List</h1><pre>" . utf8_decode(print_r($calList, true)) . "</pre>";
 
   $_SESSION['token'] = $client->getAccessToken();
