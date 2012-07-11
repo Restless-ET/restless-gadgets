@@ -33,7 +33,8 @@ if ($client->getAccessToken()) {
 
   $calList = $calService->calendarList->listCalendarList();
 
-  if (isset($_GET['create'])) {
+  if (isset($_GET['create']))
+  {
     $new_cal = new Calendar();
     $new_cal->setSummary('Calendário teste '.count($calList['items']));
     $new_cal->setDescription('Calendário para teste de uso da API.');
@@ -43,22 +44,32 @@ if ($client->getAccessToken()) {
     $calService->calendars->insert($new_cal);
 
     header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
-
   }
-  else if (isset($_GET['delete'])) {
+  else if (isset($_GET['delete']))
+  {
     $itemsList = $calList['items'];
 
     foreach ($itemsList as $item)
     {
       if (strpos($item['summary'], 'teste') !== false)
       {
+        //Delete the events associated with this calendar first
+        $eventList = $calService->events->listEvents($item['id']);
+        //print "<h1>Event List</h1><pre>".utf8_decode(print_r($eventList, true))."</pre>";
+
+        $calEvents = $eventList['items'];
+        foreach ($calEvents as $event)
+        {
+          $calService->events->delete($item['id'], $event['id'], array('sendNotifications' => false));
+        }
+        //Then delete the calendar
         $calService->calendars->delete($item['id']);
       }
     }
-
     header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
   }
-  else if (isset($_GET['associate'])) {
+  else if (isset($_GET['associate']))
+  {
     $itemsList = $calList['items'];
 
     foreach ($itemsList as $item)
@@ -83,10 +94,10 @@ if ($client->getAccessToken()) {
         //echo $createdRule->getId();
       }
     }
-
     header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
   }
-  else if (isset($_GET['event'])) {
+  else if (isset($_GET['event']))
+  {
     $itemsList = $calList['items'];
 
     foreach ($itemsList as $item)
@@ -124,7 +135,6 @@ if ($client->getAccessToken()) {
         //echo $createdEvent->getId();
       }
     }
-
     header('Location: http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
   }
 
